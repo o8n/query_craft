@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	// "github.com/o8n/QueryCraft/pkg/pkg/service"
+	// "github.com/o8n/QueryCraft/pkg/service"
 )
 
 var rootCmd = &cobra.Command{
