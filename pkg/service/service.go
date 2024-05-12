@@ -1,11 +1,11 @@
-
 package service
+
 import (
-  "fmt"
-  "bufio"
-  "os"
-  "settings"
-  "github.com/atotto/clipboard"
+	"bufio"
+	"fmt"
+	"github.com/atotto/clipboard"
+	"os"
+	"settings"
 )
 
 // ReadIDs reads IDs from a given CSV file path.
