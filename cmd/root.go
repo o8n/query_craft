@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/o8n/QueryCraft/pkg/service"
+	"github.com/o8n/query_craft/pkg/service"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "QueryCraft",
-	Short: "QueryCraft is a CLI tool for generating SQL from CSV files",
-	Long:  `QueryCraft is a CLI tool that reads member IDs from a CSV file and generates SQL statements based on user inputs.`,
+	Use:   "query_craft",
+	Short: "query_craft is a CLI tool for generating SQL from CSV files",
+	Long:  `query_craft is a CLI tool that reads member IDs from a CSV file and generates SQL statements based on user inputs.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
 			fmt.Println("Error: CSV file path is required")

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/o8n/QueryCraft/cmd"
+	"github.com/o8n/query_craft/cmd"
 )
 
 func main() {

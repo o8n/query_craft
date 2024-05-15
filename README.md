@@ -1,6 +1,6 @@
-# QueryCraft
+# query_craft
 
-QueryCraft is a CLI tool designed to convert a list of user IDs stored in a CSV file into a SQL query, facilitating quick and error-free generation of SQL statements for database operations.
+query_craft is a CLI tool designed to convert a list of user IDs stored in a CSV file into a SQL query, facilitating quick and error-free generation of SQL statements for database operations.
 
 ## Features
 
@@ -22,28 +22,28 @@ These instructions will get you a copy of the project up and running on your loc
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/o8n/QueryCraft.git
-cd QueryCraft
+git clone https://github.com/o8n/query_craft.git
+cd query_craft
 ```
 
 Next, build the project using:
 
 ```bash
-go build -o QueryCraft
+go build -o query_craft
 ```
 
 Now, you can run the tool using:
 
 ```bash
-./QueryCraft path/to/your/file.csv
+./query_craft path/to/your/file.csv
 ```
 
 ### Usage
 
-To use QueryCraft, you need a CSV file with user IDs listed, one per line. Here’s how you can run the tool:
+To use query_craft, you need a CSV file with user IDs listed, one per line. Here’s how you can run the tool:
 
 ```bash
-./QueryCraft sample.csv
+./query_craft sample.csv
 ```
 
 You will be prompted with a series of questions:
@@ -63,7 +63,7 @@ Given a `sample.csv` file with the following content:
 333
 ```
 
-Running `./QueryCraft sample.csv` and choosing to generate a `SELECT` statement for the `users` table, you might see:
+Running `./query_craft sample.csv` and choosing to generate a `SELECT` statement for the `users` table, you might see:
 
 ```
 Do you want to generate a SQL statement? [yes/no]
@@ -77,7 +77,7 @@ Generated SQL: SELECT * FROM users WHERE user_id IN (111, 222, 333);
 
 <!-- ## Contributing
 
-We welcome contributions to QueryCraft! You can contribute in several ways:
+We welcome contributions to query_craft! You can contribute in several ways:
 
-1. **Report Issues**: Report a bug or a feature request [here](https://github.com/o8n/QueryCraft/issues).
+1. **Report Issues**: Report a bug or a feature request [here](https://github.com/o8n/query_craft/issues).
 2. **Send Pull Request**: Feel free to fork the repo and open pull requests. -->

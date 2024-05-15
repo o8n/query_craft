@@ -1,4 +1,4 @@
-module github.com/o8n/QueryCraft
+module github.com/o8n/query_craft
 
 go 1.22.2
 
