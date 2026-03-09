@@ -22,8 +22,8 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-func processFile(filepath string)  {
-	ids, err := service.ReadIDs(filepath)	
+func processFile(filepath string) {
+	ids, err := service.ReadIDs(filepath)
 	if err != nil {
 		fmt.Printf("Failed to read IDs from %s: %s\n", filepath, err)
 		os.Exit(1)
@@ -32,6 +32,10 @@ func processFile(filepath string)  {
 	if err != nil {
 		fmt.Printf("Failed to generate SQL: %s\n", err)
 		os.Exit(1)
+	}
+	if sql == "" {
+		fmt.Println("SQL generation cancelled.")
+		return
 	}
 
 	fmt.Println("Generated SQL:", sql)

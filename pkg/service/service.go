@@ -2,8 +2,10 @@ package service
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"github.com/atotto/clipboard"
+	"io"
 	"os"
 	"strings"
 )
@@ -29,33 +31,57 @@ func ReadIDs(filePath string) ([]string, error) {
 }
 
 func GenerateSQL(ids []string) (string, error) {
-	// Join IDs with comma
+	return generateSQL(ids, os.Stdin, os.Stdout)
+}
+
+func CopyToClipboard(content string) error {
+	return clipboard.WriteAll(content)
+}
+
+func generateSQL(ids []string, input io.Reader, output io.Writer) (string, error) {
+	if len(ids) == 0 {
+		return "", errors.New("no IDs found in the input file")
+	}
+
+	reader := bufio.NewReader(input)
 	joinedIDs := strings.Join(ids, ", ")
 
-	// Generate SQL based on user input
-	var operation string
-	var table string
-	fmt.Println("Do you want to generate a SQL statement? [yes/no]")
-	var generateSQL string
-	fmt.Scanln(&generateSQL)
-
-	if generateSQL != "yes" {
+	fmt.Fprintln(output, "Do you want to generate a SQL statement? [yes/no]")
+	generateSQL, err := readLine(reader)
+	if err != nil {
+		return "", err
+	}
+	if !strings.EqualFold(generateSQL, "yes") {
 		return "", nil
 	}
 
-	fmt.Println("Please choose: select, update, or delete")
-	fmt.Scanln(&operation)
+	fmt.Fprintln(output, "Please choose: select, update, or delete")
+	operation, err := readLine(reader)
+	if err != nil {
+		return "", err
+	}
 
-	fmt.Println("Enter the table name:")
-	fmt.Scanln(&table)
+	fmt.Fprintln(output, "Enter the table name:")
+	table, err := readLine(reader)
+	if err != nil {
+		return "", err
+	}
+	if table == "" {
+		return "", errors.New("table name is required")
+	}
 
-	switch operation {
+	switch strings.ToLower(operation) {
 	case "select":
 		return fmt.Sprintf("SELECT * FROM %s WHERE user_id IN (%s);", table, joinedIDs), nil
 	case "update":
-		fmt.Println("Enter the set clause (e.g., `set column = value`):")
-		var setClause string
-		fmt.Scanln(&setClause)
+		fmt.Fprintln(output, "Enter the set clause (e.g., `set column = value`):")
+		setClause, err := readLine(reader)
+		if err != nil {
+			return "", err
+		}
+		if setClause == "" {
+			return "", errors.New("set clause is required for update")
+		}
 		return fmt.Sprintf("UPDATE %s %s WHERE user_id IN (%s);", table, setClause, joinedIDs), nil
 	case "delete":
 		return fmt.Sprintf("DELETE FROM %s WHERE user_id IN (%s);", table, joinedIDs), nil
@@ -64,6 +90,14 @@ func GenerateSQL(ids []string) (string, error) {
 	}
 }
 
-func CopyToClipboard(content string) error {
-	return clipboard.WriteAll(content)
+func readLine(reader *bufio.Reader) (string, error) {
+	line, err := reader.ReadString('\n')
+	if err != nil && !errors.Is(err, io.EOF) {
+		return "", err
+	}
+	line = strings.TrimSpace(line)
+	if err != nil && errors.Is(err, io.EOF) && line == "" {
+		return "", io.EOF
+	}
+	return line, nil
 }
